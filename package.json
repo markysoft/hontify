@@ -1,6 +1,6 @@
 {
   "name": "hontify",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "prestart": "npm run build",
     "start": "node dist/index.js",
