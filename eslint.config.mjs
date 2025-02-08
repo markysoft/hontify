@@ -11,6 +11,6 @@ export default tseslint.config(
       quotes: ['error', 'single']
     },
   },
-  { ignores: ['dist/*', 'node_modules'] }
+  { ignores: ['dist', 'scratch', 'node_modules'] }
 )
 
