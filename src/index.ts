@@ -4,7 +4,11 @@ import { Hono } from 'hono'
 const app = new Hono()
 
 app.get('/', (c) => {
-  return c.text('Hello Hono again!!!')
+  return c.text('Hello Hono again')
+})
+
+app.get('/healthz', (c) => {
+  return c.json({ status: 'ok' })
 })
 
 const port = process.env.PORT ? Number(process.env.PORT) : 10000
