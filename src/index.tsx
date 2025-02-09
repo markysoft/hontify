@@ -1,11 +1,14 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { LandingPage } from './components/landing-page'
 
 const app = new Hono()
 
+
 app.get('/', (c) => {
-  return c.text('Hello Hono Sunday morning!')
+  return c.html('<!DOCTYPE html>' + <LandingPage />)
 })
+
 
 app.get('/healthz', (c) => {
   return c.json({ status: 'ok' })
