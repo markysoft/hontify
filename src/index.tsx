@@ -67,6 +67,12 @@ app.get('/callback', async (c) => {
   return c.json({ status: 'boom', authJson })
 })
 
+app.get('/logout', (c) => {
+  deleteCookie(c, 'accessToken')
+  deleteCookie(c, 'refreshToken')
+  return c.redirect('/')
+})
+
 app.get('/recent-songs', async (c) => {
   const accessToken = getCookie(c, 'accessToken')
   if (!accessToken) {
