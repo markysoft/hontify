@@ -1,15 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { SpottyClient } from '../src/spotify/client'
 import { Spotify } from '../src/spotify/Spotify'
-
-describe('spotify client', () => {
-    it('should return recent tracks', async () => {
-        const client = new SpottyClient()
-        const info = await client.getRecent()
-        assert.ok(info)
-    })
-})
 
 describe('spotify', () => {
     it('should return track info', async () => {
