@@ -23,10 +23,11 @@ export const Layout: FC<{ title:string, children: any }> = (props: { title: stri
             <body>
                 <section class="section">
                     <div class="container">
+                        
                         <nav class="level">
                             <div class="level-left">
                                 <div class="level-item">
-                                    <p class="subtitle is-5"><strong>The Almanac</strong></p>
+                                    <p class="subtitle is-5"><strong>{props.title}</strong></p>
                                 </div>
                             </div>
                             <div id="authControls" class="level-right">

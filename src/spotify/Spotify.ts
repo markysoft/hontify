@@ -13,11 +13,10 @@ export class Spotify {
         })
         return await response.json()
     }
-    async getRecent() {
-        const token = await this.spotifyToken.getAccessToken()
+    async getRecent(accessToken: string) {
         const response = await fetch('https://api.spotify.com/v1/me/player/recently-played', {
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + token },
+            headers: { 'Authorization': 'Bearer ' + accessToken },
         })
         return await response.json()
     }
