@@ -1,11 +1,15 @@
 import { spotify } from '../config'
 
-export function buildLoginParams(scope: string, state: string) {
+function buildLoginParams(state: string) {
     return new URLSearchParams({
         response_type: 'code',
         client_id: spotify.clientId,
-        scope,
+        scope: spotify.scope,
         redirect_uri: spotify.redirectUri,
         state
     }).toString()
+}
+
+export function getSpotifyLoginUrl(state: string) {
+    return `https://accounts.spotify.com/authorize?${buildLoginParams(state)}`
 }

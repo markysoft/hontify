@@ -1,51 +1,81 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { jsxRenderer } from 'hono/jsx-renderer'
 import { setCookie, getCookie, deleteCookie } from 'hono/cookie'
 import { LandingPage } from './components/landing-page'
-import { buildLoginParams } from './auth/buildLoginParams'
+import { getSpotifyLoginUrl } from './auth/getSpotifyLoginUrl'
 import { generateRandomString } from './auth/generateRandomString'
 import { buildAuthRequest } from './auth/buildAuthRequest'
 import { UserTokenResponseSchema } from './spotify/responses/UserTokenResponse'
 import { Spotify } from './spotify/Spotify'
+import { MainPage } from './components/main-page'
+import { RecentSongs } from './components/recent-songs'
+import { link } from 'fs'
 
 
 const app = new Hono()
+app.use(
+  '*',
+  jsxRenderer(
+    ({ children }) => {
+      return (
+        <html>
+         {children}
+        </html>
+      )
+    },
+    { docType: false }
+  )
+)
+
+
 
 app.get('/', (c) => {
-  return c.html('<!DOCTYPE html>' + <LandingPage />)
+  const accessToken = getCookie(c, 'accessToken')
+  if (!accessToken) {
+    return c.render(<LandingPage />)
+  }
+  return c.render(<MainPage/>)
 })
 
 app.get('/login', (c) => {
-  const scope = 'user-read-private user-read-email user-read-recently-played'
   const state = generateRandomString(16)
-  const params = buildLoginParams(scope, state)
   setCookie(c, 'state', state)
-  console.log(`Redirecting to Spotify with ${params}`)
-  return c.redirect(`https://accounts.spotify.com/authorize?${params}`)
+  console.log('Redirecting to Spotify')
+  return c.redirect(getSpotifyLoginUrl(state))
 })
 
 app.get('/callback', async (c) => {
   console.log('Callback received')
-  const code = c.req.query('code') ?? ''
-  const state = c.req.query('state')
+  const { code, state } = c.req.query()
   const storedState = getCookie(c, 'state')
 
-  if (state === null || state !== storedState) {
+  if (state && state !== storedState) {
     return c.json({ error: 'state_mismatch' }, 401)
   }
   deleteCookie(c, 'state')
 
   const authResponse = await fetch('https://accounts.spotify.com/api/token', buildAuthRequest(code))
   const authJson = await authResponse.json() as unknown
-  if  (authResponse.ok) {
+  if (authResponse.ok) {
     const userToken = UserTokenResponseSchema.parse(authJson)
     setCookie(c, 'accessToken', userToken.access_token)
     setCookie(c, 'refreshToken', userToken.refresh_token)
-    const spotify = new Spotify()
-    const recent = await spotify.getRecent(userToken.access_token)
-    return c.json({ status: 'ok', recent })
+    return c.redirect('/')
   }
   return c.json({ status: 'boom', authJson })
+})
+
+app.get('/recent-songs', async (c) => {
+  const accessToken = getCookie(c, 'accessToken')
+  if (!accessToken) {
+    return c.json({ error: 'no_token' }, 401)
+  }
+  const spotify = new Spotify()
+  const recent = await spotify.getRecent(accessToken)
+  const songs = recent.items.map((item: any) => { return { name: item.track.name, artist: item.track.artists[0].name, link: item.track.external_urls.spotify } })
+  return c.render(<RecentSongs songs={songs} />)
 })
 
 app.get('/healthz', (c) => {
