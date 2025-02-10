@@ -9,6 +9,7 @@ export const Layout: FC<{ title: string, loggedIn: boolean, children: any }> = (
             <head>
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="htmx-config" content='{"responseHandling": [{"code":"...", "swap": true}]}' />
                 <title>{props.title}</title>
                 <link
                     rel="stylesheet"

@@ -3,13 +3,14 @@ import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
 import { Spotify } from '../spotify/Spotify'
 import { RecentSongs } from '../components/recent-songs'
+import { ErrorMessage } from '../components/structure/error-message'
 
 export function registerSpotify(app: Hono): void {
 
     app.get('/recent-songs', async (c) => {
         const accessToken = getCookie(c, 'accessToken')
         if (!accessToken) {
-            return c.json({ error: 'no_token' }, 401)
+            return c.render(<ErrorMessage message='No access token found, please login again' />)
         }
         const spotify = new Spotify()
         const recent = await spotify.getRecent(accessToken)
