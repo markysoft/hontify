@@ -1,15 +1,15 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { RecentSongsSchema } from '../../src/spotify/domain/RecentSongs'
+import { RecentlyPlayedResponseMinSchema } from '../../src/spotify/responses/RecentlyPlayedResponseMin'
 
 
-describe('RecentSongs Schema validation', () => {
-    it('should reshape response', async () => {
+describe('RecentlyPlayedResponseMinSchema Schema validation', () => {
+    it('should parse valid response', async () => {
 
-        const text = readFileSync(__dirname + '/test-data/two-recent-songs.json', 'utf-8')
+        const text = readFileSync(__dirname + '/../test-data/two-recent-songs.json', 'utf-8')
         const json = JSON.parse(text)
-        const recentSongs = RecentSongsSchema.parse(json)
+        const recentSongs = RecentlyPlayedResponseMinSchema.parse(json)
         assert.ok(recentSongs)
         assert.equal(recentSongs.items.length, 2)
         assert.equal(recentSongs.limit, 2)
@@ -25,10 +25,11 @@ describe('RecentSongs Schema validation', () => {
         assert.equal(firstSong.track.album.total_tracks, 7)
         assert.equal(firstSong.track.album.type, 'album')
         assert.equal(firstSong.track.album.release_date, '2021-11-26')
-        assert.equal(firstSong.track.artists[0].name, 'Richard Dawson')
-        assert.equal(firstSong.track.artists[1].name, 'Circle')
+        assert.equal(firstSong.track.album.artists[0].name, 'Richard Dawson')
+        assert.equal(firstSong.track.album.artists[1].name, 'Circle')
         assert.equal(firstSong.track.album.name, 'Henki')
         assert.equal(firstSong.track.external_urls.spotify, 'https://open.spotify.com/track/0N7XRzdgrGlhGbaXbFuu46')
+        assert.equal(firstSong.context.external_urls.spotify, 'https://open.spotify.com/album/6X4ALVBUeQnMHR5tsK8ymx')
         assert.equal(firstSong.track.album.images.length, 3)
         assert.equal(firstSong.track.album.images[0].url, 'https://i.scdn.co/image/ab67616d0000b273ed5995a2023faa81a556344f')
         assert.equal(firstSong.track.album.images[0].height, 640)
@@ -38,6 +39,6 @@ describe('RecentSongs Schema validation', () => {
         assert.equal(firstSong.track.album.images[1].width, 300)
         assert.equal(firstSong.track.album.images[2].url, 'https://i.scdn.co/image/ab67616d00004851ed5995a2023faa81a556344f')
         assert.equal(firstSong.track.album.images[2].height, 64)
-        assert.equal(firstSong.track.album.images[2].width, 64)             
+        assert.equal(firstSong.track.album.images[2].width, 64)
     })
 })
