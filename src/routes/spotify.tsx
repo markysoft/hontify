@@ -17,4 +17,14 @@ export function registerSpotify(app: Hono): void {
         const songs = recent.items.map((item: any) => { return { name: item.track.name, artist: item.track.artists[0].name, link: item.track.external_urls.spotify } })
         return c.render(<RecentSongs songs={ songs } />)
     })
+
+    app.get('/recent-songs-json', async (c) => {
+        const accessToken = getCookie(c, 'accessToken')
+        if (!accessToken) {
+            return c.render(<ErrorMessage message='No access token found, please login again' />)
+        }
+        const spotify = new Spotify()
+        const recent = await spotify.getRecent(accessToken)
+        return c.json(recent)
+    })
 }
