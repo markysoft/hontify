@@ -1,3 +1,4 @@
+import { RecentlyPlayedSchema } from './domain/RecentlyPlayed'
 import { SpotifyToken } from './SpotifyToken'
 
 export class Spotify {
@@ -18,8 +19,10 @@ export class Spotify {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + accessToken },
         })
-        return await response.json()
+        const json = await response.json() as unknown
+        if (response.ok) {
+            return RecentlyPlayedSchema.parse(json)
+        }
+        throw new Error('Failed to get recent songs')
     }
-
-    
 }

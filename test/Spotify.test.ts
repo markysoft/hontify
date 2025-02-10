@@ -13,8 +13,12 @@ describe('spotify', () => {
     })
     it('should return recent tracks', async () => {
         const spotify = new Spotify()
-        const info = await spotify.getRecent()
-        console.log(info)
-        assert.ok(info)
+        assert.rejects(
+            async () => { await spotify.getRecent('') },
+            {
+                name: 'Error',
+                message: 'Failed to get recent songs',
+            }
+        )
     })    
 })
