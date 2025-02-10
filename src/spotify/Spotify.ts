@@ -16,8 +16,7 @@ export class Spotify {
     }
     async getRecent(accessToken: string, before: string | undefined): Promise<RecentlyPlayed> {
         const beforeString = before ? `&before=${before}` : ''
-        console.log('beforeString', beforeString)
-        const response = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=24' + beforeString, {
+        const response = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50' + beforeString, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + accessToken },
         })
