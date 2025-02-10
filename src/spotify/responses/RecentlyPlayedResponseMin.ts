@@ -48,8 +48,8 @@ export const RecentlyPlayedItemMinSchema = z.object({
 export const RecentlyPlayedResponseMinSchema = z.object(
     {
         items: z.array(RecentlyPlayedItemMinSchema),
-        next: z.string(),
-        cursors: z.object({ after: z.coerce.number(), before: z.coerce.number() }),
+        next: z.string().nullable(),
+        cursors: z.object({ after: z.coerce.number(), before: z.coerce.number() }).nullable(),
         limit: z.number(),
         href: z.string()
     },

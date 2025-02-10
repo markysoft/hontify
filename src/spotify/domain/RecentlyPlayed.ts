@@ -3,9 +3,13 @@ import { RecentlyPlayedResponseMinSchema } from '../responses/RecentlyPlayedResp
 
 export const RecentlyPlayedSchema = RecentlyPlayedResponseMinSchema.transform((val) => {
     return {
-        ...val,
-        newer: `https://api.spotify.com/v1/me/player/recently-played?before=${val.cursors.after}`,
-        older: `https://api.spotify.com/v1/me/player/recently-played?before=${val.cursors.before}`,
+        next: val.next,
+        limit: val.limit,
+        href: val.href,
+        before: val.cursors?.before,
+        after: val.cursors?.after,
+        // newer: `https://api.spotify.com/v1/me/player/recently-played?before=${val.cursors.after}`,
+        // older: `https://api.spotify.com/v1/me/player/recently-played?before=${val.cursors.before}`,
         items: val.items.map((item) => {
             return {
                 name: item.track.name,
@@ -36,7 +40,7 @@ function convertMillisecondsToMinutesAndSeconds(milliseconds: number): string {
     return `${formattedMinutes}:${formattedSeconds}`
 }
 
-function getImages(images: { height: number, url: string }[]) {
+function getImages(images: { height: number, url: string }[]) : { thumb: string, medium: string, large: string } {
     const [thumb, medium, large] = images.sort((a, b) => a.height - b.height).map((image) => image.url)
     return { thumb, medium, large }
 }

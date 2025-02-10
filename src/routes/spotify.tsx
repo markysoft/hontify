@@ -1,30 +1,34 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
 import { Spotify } from '../spotify/Spotify'
 import { RecentSongs } from '../components/recent-songs'
 import { ErrorMessage } from '../components/structure/error-message'
+import { RecentlyPlayed } from '../spotify/domain/RecentlyPlayed'
 
 export function registerSpotify(app: Hono): void {
 
     app.get('/recent-songs', async (c) => {
+        const before = c.req.query('before')
+        console.log('query before', before)
         const accessToken = getCookie(c, 'accessToken')
         if (!accessToken) {
             return c.render(<ErrorMessage message='No access token found, please login again' />)
         }
         const spotify = new Spotify()
-        const recent = await spotify.getRecent(accessToken)
-        const songs = recent.items.map((item: any) => { return { name: item.track.name, artist: item.track.artists[0].name, link: item.track.external_urls.spotify } })
-        return c.render(<RecentSongs songs={ songs } />)
+
+        const recentlyPlayed: RecentlyPlayed = await spotify.getRecent(accessToken, before)
+        return c.render(<RecentSongs recentlyPlayed={recentlyPlayed } />)
     })
 
     app.get('/recent-songs-json', async (c) => {
+        const before = c.req.query('before')
+        console.log('query befpre', before)
         const accessToken = getCookie(c, 'accessToken')
         if (!accessToken) {
             return c.render(<ErrorMessage message='No access token found, please login again' />)
         }
         const spotify = new Spotify()
-        const recent = await spotify.getRecent(accessToken)
+        const recent : RecentlyPlayed = await spotify.getRecent(accessToken, before)
         return c.json(recent)
     })
 }

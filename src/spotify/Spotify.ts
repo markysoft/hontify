@@ -1,4 +1,4 @@
-import { RecentlyPlayedSchema } from './domain/RecentlyPlayed'
+import { RecentlyPlayed, RecentlyPlayedSchema } from './domain/RecentlyPlayed'
 import { SpotifyToken } from './SpotifyToken'
 
 export class Spotify {
@@ -14,8 +14,10 @@ export class Spotify {
         })
         return await response.json()
     }
-    async getRecent(accessToken: string) {
-        const response = await fetch('https://api.spotify.com/v1/me/player/recently-played', {
+    async getRecent(accessToken: string, before: string | undefined): Promise<RecentlyPlayed> {
+        const beforeString = before ? `&before=${before}` : ''
+        console.log('beforeString', beforeString)
+        const response = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=24' + beforeString, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + accessToken },
         })
