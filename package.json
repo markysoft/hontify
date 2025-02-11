@@ -3,7 +3,7 @@
   "type": "commonjs",
   "scripts": {
     "prestart": "npm run build",
-    "start": "node dist/index.js",
+    "start": "node --env-file .env dist/index.js",
     "build": "tsc",
     "dev": "tsx --env-file .env --watch src/index.tsx",
     "test": "glob -c \"tsx --env-file .env --test --test-reporter spec \" \"./test/**/*.test.ts\"",
