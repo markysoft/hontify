@@ -1,6 +1,7 @@
-
-import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { serve } from '@hono/node-server'
+import { logger } from 'hono/logger'
+import { timing } from 'hono/timing'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { getCookie } from 'hono/cookie'
 import { LandingPage } from './components/landing-page'
@@ -9,6 +10,8 @@ import { registerRoutes } from './routes/registerRoutes'
 
 const app = new Hono()
 
+app.use(logger())
+app.use(timing())
 app.use('*', jsxRenderer(({ children }) => <html>{children}</html>, { docType: true }))
 
 app.get('/', (c) => {

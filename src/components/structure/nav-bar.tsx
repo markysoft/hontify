@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 
-export const NavBar: FC = (props) => {
+
+export const NavBar: FC<{ title: string, loggedIn: boolean }> = (props: { title: string, loggedIn: boolean }) => {
     return (
         <nav class="level">
             <div class="level-left">

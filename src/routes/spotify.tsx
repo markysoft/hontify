@@ -4,6 +4,7 @@ import { Spotify } from '../spotify/Spotify'
 import { RecentSongs } from '../components/recent-songs'
 import { ErrorMessage } from '../components/structure/error-message'
 import { RecentlyPlayed } from '../spotify/domain/RecentlyPlayed'
+import { CurrentSong } from '../components/current-song'
 
 export function registerSpotify(app: Hono): void {
 
@@ -30,5 +31,17 @@ export function registerSpotify(app: Hono): void {
         const spotify = new Spotify()
         const recent : RecentlyPlayed = await spotify.getRecent(accessToken, before)
         return c.json(recent)
+    })
+
+    app.get('/current-song', async (c) => {
+        const accessToken = getCookie(c, 'accessToken')
+        if (!accessToken) {
+            c.status(401)
+            return c.json({ message: 'No access token found, please login again' })
+        }
+        const spotify = new Spotify()
+        const current = await spotify.getCurrentlyPlaying(accessToken)
+        // return c.json(current)
+        return c.render( <CurrentSong song={current} />)
     })
 }
