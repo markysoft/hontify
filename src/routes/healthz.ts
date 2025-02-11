@@ -1,7 +1,9 @@
 import { Hono } from 'hono'
 
-export function registerHealthz(app: Hono): void {
-    app.get('/healthz', (c) => {
-        return c.json({ status: 'ok' })
-    })
-}
+const app = new Hono()
+
+app.get('/', (c) => {
+    return c.json({ status: 'ok' })
+})
+
+export default app

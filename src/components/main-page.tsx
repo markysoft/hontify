@@ -1,12 +1,12 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from './structure/layout'
 
-export const MainPage: FC = () => {
+export const MainPage: FC<{ refreshInterval: string; }> = (props: { refreshInterval: string; }) => {
+    const trigger = `load, every ${props.refreshInterval}s`
     return (
         <Layout title="Hontify" loggedIn={true}>
-
-            <div id='current-song' hx-get="/current-song" hx-trigger="load, every 30s"></div>
-            <div id='recent-songs' hx-get="/recent-songs" hx-trigger="load, every 30s"></div>
+            <div id='current-song' hx-get="/spotify/current-song" hx-trigger={trigger}></div>
+            <div id='recent-songs' hx-get="/spotify/recent-songs" hx-trigger="load, currentSongUpdated from:body"></div>
         </Layout>
     )
 }

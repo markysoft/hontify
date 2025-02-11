@@ -1,6 +1,5 @@
 import { CurrentlyPlaying, CurrentlyPlayingSchema } from './domain/CurrentlyPlaying'
 import { RecentlyPlayed, RecentlyPlayedSchema } from './domain/RecentlyPlayed'
-import { CurrentlyPlayingTrackResponse, CurrentlyPlayingTrackResponseSchema } from './responses/CurrentlyPlayingResponse'
 import { SpotifyToken } from './SpotifyToken'
 
 export class Spotify {
@@ -30,16 +29,18 @@ export class Spotify {
         throw new Error('Failed to get recent songs')
     }
 
-    async getCurrentlyPlaying(accessToken: string): Promise<CurrentlyPlaying> {
+    async getCurrentlyPlaying(accessToken: string): Promise<CurrentlyPlaying | undefined> {
         const response = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + accessToken },
         })
-        const json = await response.json() as unknown
         if (response.ok) {
+            if (response.statusText === 'No Content') {
+              return undefined
+            }
+            const json = await response.json() as unknown
             return CurrentlyPlayingSchema.parse(json)
         }
-        console.log(json)
         throw new Error('Failed to get current song')
     }
 }

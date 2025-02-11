@@ -6,8 +6,10 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { getCookie } from 'hono/cookie'
 import { LandingPage } from './components/landing-page'
 import { MainPage } from './components/main-page'
-import { registerRoutes } from './routes/registerRoutes'
-
+import spotify from './routes/spotify'
+import healthz from './routes/healthz'
+import auth from './routes/auth'
+import { spotify as spotifyConfig }from './config'
 const app = new Hono()
 
 app.use(logger())
@@ -15,14 +17,12 @@ app.use(timing())
 app.use('*', jsxRenderer(({ children }) => <html>{children}</html>, { docType: true }))
 
 app.get('/', (c) => {
-  const accessToken = getCookie(c, 'accessToken')
-  if (accessToken) {
-    return c.render(<MainPage />)
-  }
-  return c.render(<LandingPage />)
+  return c.render(getCookie(c, 'accessToken') ? <MainPage refreshInterval={spotifyConfig.refreshInterval} /> : <LandingPage />)
 })
 
-registerRoutes(app)
+app.route('/auth', auth)
+app.route('/spotify', spotify)
+app.route('/healthz', healthz)
 
 const port = process.env.PORT ? Number(process.env.PORT) : 3000
 

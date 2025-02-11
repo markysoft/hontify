@@ -9,7 +9,7 @@ export const Layout: FC<{ title: string, loggedIn: boolean, children: any }> = (
             <head>
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta name="htmx-config" content='{"responseHandling": [{code:"204", swap: false},{"code":"...", "swap": true}]}' />
+                <meta name="htmx-config" content='{"responseHandling": [{"code":"204", "swap": false},{"code":"...", "swap": true}]}' />
                 <title>{props.title}</title>
                 <link
                     rel="stylesheet"
@@ -36,9 +36,9 @@ export const Layout: FC<{ title: string, loggedIn: boolean, children: any }> = (
                         {props.children}
                         <footer class="footer">
                             <div class="content has-text-centered">
-                                <strong><a href="https://hono.dev/">Hono</a></strong> backend
-                                with an <strong><a href="https://htmx.org/">HTMX</a></strong> frontend
-                                using <strong><a href="https://bulma.io/">Bulma</a></strong> CSS
+                                <strong><a href="https://hono.dev/" target="_blank">Hono</a></strong> backend
+                                with an <strong><a href="https://htmx.org/" target="_blank">HTMX</a></strong> frontend
+                                using <strong><a href="https://bulma.io/" target="_blank">Bulma</a></strong> CSS
                             </div>
                         </footer>
                     </div>

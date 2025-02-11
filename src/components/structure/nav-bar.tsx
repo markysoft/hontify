@@ -11,9 +11,9 @@ export const NavBar: FC<{ title: string, loggedIn: boolean }> = (props: { title:
             </div>
             <div id="authControls" class="level-right" >
                 {props.loggedIn ? (
-                    <p class="level-item"><a class="button is-success" href='logout'>Log out</a></p>
+                    <p class="level-item"><a class="button is-success" href='auth/logout'>Log out</a></p>
                 ) : (
-                    <p class="level-item"><a class="button is-success" href='login'>Log in</a></p>
+                    <p class="level-item"><a class="button is-success" href='auth/login'>Log in</a></p>
                 )}
             </div>
         </nav>
