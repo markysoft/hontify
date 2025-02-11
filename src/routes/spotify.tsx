@@ -9,9 +9,9 @@ export function registerSpotify(app: Hono): void {
 
     app.get('/recent-songs', async (c) => {
         const before = c.req.query('before')
-        console.log('query before', before)
         const accessToken = getCookie(c, 'accessToken')
         if (!accessToken) {
+            c.status(401)
             return c.render(<ErrorMessage message='No access token found, please login again' />)
         }
         const spotify = new Spotify()
@@ -22,10 +22,10 @@ export function registerSpotify(app: Hono): void {
 
     app.get('/recent-songs-json', async (c) => {
         const before = c.req.query('before')
-        console.log('query befpre', before)
         const accessToken = getCookie(c, 'accessToken')
         if (!accessToken) {
-            return c.render(<ErrorMessage message='No access token found, please login again' />)
+            c.status(401)
+            return c.json( { message: 'No access token found, please login again' })
         }
         const spotify = new Spotify()
         const recent : RecentlyPlayed = await spotify.getRecent(accessToken, before)
