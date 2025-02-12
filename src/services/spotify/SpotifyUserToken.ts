@@ -1,6 +1,6 @@
 import { Context } from 'hono'
 import config from '../../config'
-import { ErrorResponseSchema } from '../common/responses/ErrorResponse'
+import { ErrorResponseSchema } from '../auth/responses/ErrorResponse'
 import { getCookie, setCookie } from 'hono/cookie'
 import { UserTokenResponseSchema } from '../auth/responses/UserTokenResponse'
 const { spotify } = config

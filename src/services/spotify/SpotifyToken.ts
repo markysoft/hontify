@@ -1,7 +1,7 @@
 import config from '../../config'
 const { spotify } = config
 import { TokenResponseSchema } from '../auth/responses/TokenResponse'
-import { ErrorResponseSchema } from '../common/responses/ErrorResponse'
+import { ErrorResponseSchema } from '../auth/responses/ErrorResponse'
 
 const spotifyUrl = 'https://accounts.spotify.com/api'
 const tenSecondsInMilliseconds = 10000
