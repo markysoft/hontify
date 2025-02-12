@@ -11,14 +11,13 @@ const app = new Hono()
 const spotify = new Spotify()
 
 app.get('/recent-songs', async (c) => {
-    const before = c.req.query('before')
     const accessToken = getCookie(c, 'accessToken')
     if (!accessToken) {
         c.status(401)
         return c.render(<ErrorMessage message='No access token found, please login again' />)
     }
 
-    const recentlyPlayed: RecentlyPlayed = await spotify.getRecent(accessToken, before)
+    const recentlyPlayed: RecentlyPlayed = await spotify.getRecent(accessToken)
     return c.render(<RecentSongs recentlyPlayed={recentlyPlayed} />)
 })
 
