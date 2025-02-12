@@ -15,14 +15,14 @@ export class SpotifyToken {
         return Date.now() > this.expires - tenSecondsInMilliseconds
     }
 
-    async getAccessToken() {
+    async getAccessToken() : Promise<string> {
         if (this.expired()) {
             await this.updateToken()
         }
         return this.accessToken
     }
 
-    private async updateToken() {
+    private async updateToken(): Promise<void>  {
         try {
             console.log('updating token')
             const response = await fetch(`${spotifyUrl}/token`, this.tokenRequest())
