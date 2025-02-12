@@ -2,6 +2,9 @@ import type { FC } from 'hono/jsx'
 
 
 export const NavBar: FC<{ title: string, loggedIn: boolean }> = (props: { title: string, loggedIn: boolean }) => {
+    const logInfo = props.loggedIn ?
+        { href: 'auth/logout', label: 'Log out' } :
+        { href: 'auth/login', label: 'Log in' }
     return (
         <nav class="level">
             <div class="level-left">
@@ -10,11 +13,9 @@ export const NavBar: FC<{ title: string, loggedIn: boolean }> = (props: { title:
                 </div>
             </div>
             <div id="authControls" class="level-right" >
-                {props.loggedIn ? (
-                    <p class="level-item"><a class="button is-success" href='auth/logout'>Log out</a></p>
-                ) : (
-                    <p class="level-item"><a class="button is-success" href='auth/login'>Log in</a></p>
-                )}
+                <p class="level-item">
+                    <a class="button is-success" href={logInfo.href}>{logInfo.label}</a>
+                </p>
             </div>
         </nav>
     )
