@@ -1,5 +1,5 @@
 import { FC } from 'hono/jsx'
-import { RecentlyPlayed, RecentlyPlayedItem } from '../spotify/domain/RecentlyPlayed'
+import { RecentlyPlayed, RecentlyPlayedItem } from '../services/spotify/domain/RecentlyPlayed'
 import { SongCard } from './song-card'
 
 export const RecentSongs: FC<{ recentlyPlayed: RecentlyPlayed }> = (props: { recentlyPlayed: RecentlyPlayed }) => {

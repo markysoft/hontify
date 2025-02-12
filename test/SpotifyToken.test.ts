@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { SpotifyToken } from '../src/spotify/SpotifyToken'
+import { SpotifyToken } from '../src/services/spotify/SpotifyToken'
 
 describe('SpotifyToken', () => {
     it('expired should be true for not expired', () => {

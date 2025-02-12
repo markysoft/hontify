@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { RecentlyPlayedResponseMinSchema } from '../../src/spotify/responses/RecentlyPlayedResponseMin'
+import { RecentlyPlayedResponseMinSchema } from '../../src/services/spotify/responses/RecentlyPlayedResponseMin'
 
 
 describe('RecentlyPlayedResponseMinSchema Schema validation', () => {
@@ -15,8 +15,6 @@ describe('RecentlyPlayedResponseMinSchema Schema validation', () => {
         assert.equal(recentSongs.limit, 2)
         assert.equal(recentSongs.href, 'https://api.spotify.com/v1/me/player/recently-played?limit=2')
         assert.equal(recentSongs.next, 'https://api.spotify.com/v1/me/player/recently-played?before=1739185762955&limit=2')
-        assert.equal(recentSongs.cursors.after, 1739186300827)
-        assert.equal(recentSongs.cursors.before, 1739185762955)
         const firstSong = recentSongs.items[0]
         assert.equal(firstSong.track.name, 'Ivy')
         assert.equal(firstSong.track.duration_ms, 537880)

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { Spotify } from '../src/spotify/Spotify'
+import { Spotify } from '../src/services/spotify/Spotify'
 
 describe('spotify', () => {
     it('should return track info', async () => {

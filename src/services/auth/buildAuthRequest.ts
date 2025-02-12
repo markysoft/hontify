@@ -1,4 +1,4 @@
-import config from '../config'
+import config from '../../config'
 const { spotify } = config
 
 export function buildAuthRequest(code: string) {

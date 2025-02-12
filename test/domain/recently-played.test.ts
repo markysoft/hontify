@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { RecentlyPlayedSchema } from '../../src/spotify/domain/RecentlyPlayed'
+import { RecentlyPlayedSchema } from '../../src/services/spotify/domain/RecentlyPlayed'
 
 
 describe('RecentlyPlayed Schema validation', () => {

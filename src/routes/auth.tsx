@@ -1,12 +1,12 @@
 import { Hono } from 'hono'
-import { generateRandomString } from '../auth/generateRandomString'
+import { generateRandomString } from '../services/auth/generateRandomString'
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
-import { getSpotifyLoginUrl } from '../auth/getSpotifyLoginUrl'
-import { buildAuthRequest } from '../auth/buildAuthRequest'
-import { UserTokenResponseSchema } from '../spotify/responses/UserTokenResponse'
-import { SpotifyError } from '../spotify/responses/ErrorResponse'
+import { UserTokenResponseSchema } from '../services/auth/responses/UserTokenResponse'
+import { ErrorResponse } from '../services/common/responses/ErrorResponse'
 import { Layout } from '../components/structure/layout'
 import { ErrorMessage } from '../components/structure/error-message'
+import { buildAuthRequest } from '../services/auth/buildAuthRequest'
+import { getSpotifyLoginUrl } from '../services/auth/getSpotifyLoginUrl'
 
 const app = new Hono()
 
@@ -41,7 +41,7 @@ app.get('/callback', async (c) => {
         setCookie(c, 'refreshToken', userToken.refresh_token)
         return c.redirect('/')
     }
-    const errorDetails = authJson as SpotifyError
+    const errorDetails = authJson as ErrorResponse
     c.status(401)
     return c.render(
         <Layout title="Hontify" loggedIn={false}>

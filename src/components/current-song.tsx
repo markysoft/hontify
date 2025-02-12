@@ -1,6 +1,6 @@
 
 import { FC } from 'hono/jsx'
-import { CurrentlyPlaying } from '../spotify/domain/CurrentlyPlaying'
+import { CurrentlyPlaying } from '../services/spotify/domain/CurrentlyPlaying'
 export const CurrentSong: FC<{ song: CurrentlyPlaying }> = (props: { song: CurrentlyPlaying }) => {
     return (
         <>

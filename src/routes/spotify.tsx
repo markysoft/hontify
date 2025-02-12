@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
-import { Spotify } from '../spotify/Spotify'
+import { Spotify } from '../services/spotify/Spotify'
 import { RecentSongs } from '../components/recent-songs'
 import { ErrorMessage } from '../components/structure/error-message'
-import { RecentlyPlayed } from '../spotify/domain/RecentlyPlayed'
+import { RecentlyPlayed } from '../services/spotify/domain/RecentlyPlayed'
 import { CurrentSong } from '../components/current-song'
 
 const app = new Hono()

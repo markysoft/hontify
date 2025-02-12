@@ -1,10 +1,10 @@
-import config from '../config'
+import config from '../../config'
 const { spotify } = config
-import { TokenResponseSchema } from './responses/TokenResponse'
-import { SpotifyError } from './responses/ErrorResponse'
+import { TokenResponseSchema } from '../auth/responses/TokenResponse'
+import { ErrorResponseSchema } from '../common/responses/ErrorResponse'
 
 const spotifyUrl = 'https://accounts.spotify.com/api'
-const tenSecondsInMilliseconds =  10000
+const tenSecondsInMilliseconds = 10000
 
 export class SpotifyToken {
     accessToken = ''
@@ -15,14 +15,14 @@ export class SpotifyToken {
         return Date.now() > this.expires - tenSecondsInMilliseconds
     }
 
-    async getAccessToken() : Promise<string> {
+    async getAccessToken(): Promise<string> {
         if (this.expired()) {
             await this.updateToken()
         }
         return this.accessToken
     }
 
-    private async updateToken(): Promise<void>  {
+    private async updateToken(): Promise<void> {
         try {
             console.log('updating token')
             const response = await fetch(`${spotifyUrl}/token`, this.tokenRequest())
@@ -32,8 +32,8 @@ export class SpotifyToken {
                 this.accessToken = access_token
                 this.expires = Date.now() + (expires_in * 1000)
             } else {
-                const responseJson = await response.json() as SpotifyError
-                throw new Error(`Failed to get token: ${responseJson.error_description}`)
+                const {error_description} = ErrorResponseSchema.parse(await response.json())
+                throw new Error(`Failed to get token: ${error_description}`)
             }
         } catch (e) {
             console.error(e)

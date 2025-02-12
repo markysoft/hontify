@@ -11,15 +11,15 @@ export const ConfigSchema = z.object({
     port: z.coerce.number().default(3000)
 })
 
-const rawConfig = {
-    spotify: {
-        clientId: process.env.SPOTIFY_CLIENT_ID,
-        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-        redirectUri: process.env.SPOTIFY_REDIRECT_URI,
-        refreshInterval: process.env.REFRESH_INTERVAL,
-        scope: 'user-read-private user-read-email user-read-recently-played  user-read-currently-playing',
-    },
-    port: process.env.PORT
-}
-
-export default ConfigSchema.parse(rawConfig)
+export default ConfigSchema.parse(
+    {
+        spotify: {
+            clientId: process.env.SPOTIFY_CLIENT_ID,
+            clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+            redirectUri: process.env.SPOTIFY_REDIRECT_URI,
+            refreshInterval: process.env.REFRESH_INTERVAL,
+            scope: 'user-read-private user-read-email user-read-recently-played  user-read-currently-playing',
+        },
+        port: process.env.PORT
+    }
+)
