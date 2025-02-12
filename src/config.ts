@@ -7,6 +7,8 @@ export const ConfigSchema = z.object({
         redirectUri: z.string().default('http://localhost:3000/auth/callback'),
         refreshInterval: z.coerce.number().default(30),
         scope: z.string(),
+    }).transform(val => {
+        return { ...val, authcode: Buffer.from(`${val.clientId}:${val.clientSecret}`).toString('base64') }
     }),
     port: z.coerce.number().default(3000)
 })

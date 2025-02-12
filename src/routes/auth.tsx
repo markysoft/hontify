@@ -28,6 +28,7 @@ app.get('/callback', async (c) => {
 
     const authResponse = await fetch('https://accounts.spotify.com/api/token', buildAuthRequest(code))
     const authJson = await authResponse.json() as unknown
+    console.log(authJson)
     if (authResponse.ok) {
         const userToken = UserTokenResponseSchema.parse(authJson)
         const expires = new Date(Date.now() + ((userToken.expires_in - 10) * 1000))

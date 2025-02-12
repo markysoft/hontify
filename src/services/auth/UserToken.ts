@@ -45,13 +45,15 @@ export class UserToken {
     }
 
     private tokenRequest(): RequestInit {
-        const authCode = `${spotify.clientId}:${spotify.clientSecret}`
         return {
             method: 'POST',
-            body: new URLSearchParams({ 'grant_type': 'refresh_token', 'refresh_token': this.refreshToken }),
+            body: new URLSearchParams({
+                'grant_type': 'refresh_token',
+                'refresh_token': this.refreshToken
+            }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + (Buffer.from(authCode).toString('base64')),
+                'Authorization': `Basic ${spotify.authcode}`,
             },
         }
     }
