@@ -3,8 +3,8 @@ import type { FC } from 'hono/jsx'
 
 export const NavBar: FC<{ title: string, loggedIn: boolean }> = (props: { title: string, loggedIn: boolean }) => {
     const logInfo = props.loggedIn ?
-        { href: 'auth/logout', label: 'Log out' } :
-        { href: 'auth/login', label: 'Log in' }
+        { href: '/auth/logout', label: 'Log out' } :
+        { href: '/auth/login', label: 'Log in' }
     return (
         <nav class="level">
             <div class="level-left">

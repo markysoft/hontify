@@ -2,11 +2,10 @@ import { Hono } from 'hono'
 import { generateRandomString } from '../services/auth/generateRandomString'
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
 import { UserTokenResponseSchema } from '../services/auth/responses/UserTokenResponse'
-import { ErrorResponse } from '../services/common/responses/ErrorResponse'
-import { Layout } from '../components/structure/layout'
-import { ErrorMessage } from '../components/structure/error-message'
+import { ErrorResponseSchema } from '../services/common/responses/ErrorResponse'
 import { buildAuthRequest } from '../services/auth/buildAuthRequest'
 import { getSpotifyLoginUrl } from '../services/auth/getSpotifyLoginUrl'
+import { ErrorPage } from '../components/ux/error-page'
 
 const app = new Hono()
 
@@ -18,17 +17,12 @@ app.get('/login', (c) => {
 })
 
 app.get('/callback', async (c) => {
-    console.log('Callback received')
     const { code, state } = c.req.query()
     const storedState = getCookie(c, 'state')
 
     if (state && state !== storedState) {
         c.status(401)
-        return c.render(
-            <Layout title="Hontify" loggedIn={false}>
-                <ErrorMessage message='state mismatch' />
-            </Layout>
-        )
+        return c.render(<ErrorPage message='state mismatch' loggedIn={false} />)
     }
     deleteCookie(c, 'state')
 
@@ -41,12 +35,14 @@ app.get('/callback', async (c) => {
         setCookie(c, 'refreshToken', userToken.refresh_token)
         return c.redirect('/')
     }
-    const errorDetails = authJson as ErrorResponse
+
+    const errorDetails = ErrorResponseSchema.parse(authJson)
     c.status(401)
     return c.render(
-        <Layout title="Hontify" loggedIn={false}>
-            <ErrorMessage message={`${errorDetails.error}, ${errorDetails.error_description}`} />
-        </Layout>
+        <ErrorPage
+            message={`${errorDetails.error}, ${errorDetails.error_description}`}
+            loggedIn={false}
+        />
     )
 })
 
