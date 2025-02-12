@@ -6,6 +6,7 @@ import { ErrorResponseSchema } from '../services/auth/responses/ErrorResponse'
 import { buildAuthRequest } from '../services/auth/buildAuthRequest'
 import { getSpotifyLoginUrl } from '../services/auth/getSpotifyLoginUrl'
 import { ErrorPage } from '../components/ux/error-page'
+import { getTokenExpiry } from '../services/auth/getTokenExpiry'
 
 const app = new Hono()
 
@@ -24,16 +25,21 @@ app.get('/callback', async (c) => {
         c.status(401)
         return c.render(<ErrorPage message='state mismatch' loggedIn={false} />)
     }
+
     deleteCookie(c, 'state')
 
     const authResponse = await fetch('https://accounts.spotify.com/api/token', buildAuthRequest(code))
     const authJson = await authResponse.json() as unknown
-    console.log(authJson)
+
     if (authResponse.ok) {
         const userToken = UserTokenResponseSchema.parse(authJson)
-        const expires = new Date(Date.now() + ((userToken.expires_in - 10) * 1000))
-        setCookie(c, 'accessToken', userToken.access_token, { expires, httpOnly: true })
-        setCookie(c, 'refreshToken', userToken.refresh_token ?? '')
+        setCookie(c, 'accessToken', userToken.access_token, {
+            expires: getTokenExpiry(userToken.expires_in),
+            httpOnly: true
+        })
+        setCookie(c, 'refreshToken', userToken.refresh_token ?? '', {
+            httpOnly: true
+        })
         return c.redirect('/')
     }
 
