@@ -19,7 +19,7 @@ export const SongCard: FC<{ song: RecentlyPlayedItem | CurrentlyPlaying, size: s
                 <div class="card-content">
                     <div class="content">
                         <a href={props.song.url}>{props.song.name}</a><br />
-                        {props.song.artist} - {props.song.album.name}
+                        {props.song.artist} - <a href={props.song.album.url}>{props.song.album.name}</a>
                     </div>
                 </div>
             </div>
