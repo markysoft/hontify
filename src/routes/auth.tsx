@@ -6,6 +6,7 @@ import { ErrorResponseSchema } from '../services/common/responses/ErrorResponse'
 import { buildAuthRequest } from '../services/auth/buildAuthRequest'
 import { getSpotifyLoginUrl } from '../services/auth/getSpotifyLoginUrl'
 import { ErrorPage } from '../components/ux/error-page'
+import { buildRefreshRequest } from '../services/auth/buildRefreshRequest'
 
 const app = new Hono()
 
@@ -44,6 +45,19 @@ app.get('/callback', async (c) => {
             loggedIn={false}
         />
     )
+})
+
+app.get('/refresh-token', async (c) => {
+    const refreshToken = getCookie(c, 'refreshToken') ?? ''
+
+    const refreshResponse = await fetch('https://accounts.spotify.com/api/token', buildRefreshRequest(refreshToken))
+    const refreshJson = await refreshResponse.json() as unknown
+    if (refreshResponse.ok) {
+        const userToken = UserTokenResponseSchema.parse(refreshJson) 
+        const expires = new Date(Date.now() + ((userToken.expires_in - 10) * 1000))
+        setCookie(c, 'accessToken', userToken.access_token, { expires, httpOnly: true })
+        setCookie(c, 'refreshToken', userToken.refresh_token)          
+    }
 })
 
 app.get('/logout', (c) => {
