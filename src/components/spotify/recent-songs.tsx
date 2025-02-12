@@ -1,5 +1,5 @@
 import { FC } from 'hono/jsx'
-import { RecentlyPlayed, RecentlyPlayedItem } from '../services/spotify/domain/RecentlyPlayed'
+import { RecentlyPlayed, RecentlyPlayedItem } from '../../services/spotify/domain/RecentlyPlayed'
 import { SongCard } from './song-card'
 
 export const RecentSongs: FC<{ recentlyPlayed: RecentlyPlayed }> = (props: { recentlyPlayed: RecentlyPlayed }) => {
@@ -7,7 +7,7 @@ export const RecentSongs: FC<{ recentlyPlayed: RecentlyPlayed }> = (props: { rec
         < >
             <h2 class="title has-text-primary-15">Recent Songs</h2>
             <div class="grid is-col-min-9">
-                {props.recentlyPlayed.items.map((song: RecentlyPlayedItem) => <SongCard song={song} />)}
+                {props.recentlyPlayed.items.map((song: RecentlyPlayedItem) => <SongCard song={song} size="medium" />)}
             </div>
         </>
     )

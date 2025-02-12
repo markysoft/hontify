@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx'
-import { Layout } from './structure/layout'
+import { Layout } from './layout'
 
 export const MainPage: FC<{ refreshInterval: number; }> = (props: { refreshInterval: number; }) => {
     const trigger = `load, every ${props.refreshInterval}s`

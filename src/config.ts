@@ -18,7 +18,7 @@ export default ConfigSchema.parse(
             clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
             redirectUri: process.env.SPOTIFY_REDIRECT_URI,
             refreshInterval: process.env.REFRESH_INTERVAL,
-            scope: 'user-read-private user-read-email user-read-recently-played  user-read-currently-playing',
+            scope: 'user-read-private user-read-email user-read-recently-played user-read-currently-playing',
         },
         port: process.env.PORT
     }
