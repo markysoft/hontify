@@ -1,13 +1,13 @@
 import { Context } from 'hono'
 import config from '../../config'
-import { ErrorResponseSchema } from '../auth/responses/ErrorResponse'
+import { ErrorResponseSchema } from './responses/ErrorResponse'
 import { getCookie, setCookie } from 'hono/cookie'
-import { UserTokenResponseSchema } from '../auth/responses/UserTokenResponse'
+import { UserTokenResponseSchema } from './responses/UserTokenResponse'
 const { spotify } = config
 
 const spotifyTokenUrl = 'https://accounts.spotify.com/api/token'
 
-export class SpotifyUserToken {
+export class UserToken {
     private accessToken = ''
     private refreshToken = ''
     private c: Context

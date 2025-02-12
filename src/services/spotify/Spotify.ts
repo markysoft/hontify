@@ -1,11 +1,11 @@
 import { CurrentlyPlaying, CurrentlyPlayingSchema } from './domain/CurrentlyPlaying'
 import { RecentlyPlayed, RecentlyPlayedSchema } from './domain/RecentlyPlayed'
-import { SpotifyToken } from './SpotifyToken'
+import { MachineToken } from '../auth/MachineToken'
 
 export class Spotify {
-    spotifyToken: SpotifyToken
+    spotifyToken: MachineToken
     constructor() {
-        this.spotifyToken = new SpotifyToken()
+        this.spotifyToken = new MachineToken()
     }
     async getTrackInfo(trackId: string) {
         const token = await this.spotifyToken.getAccessToken()
@@ -35,7 +35,7 @@ export class Spotify {
         })
         if (response.ok) {
             if (response.statusText === 'No Content') {
-              return undefined
+                return undefined
             }
             const json = await response.json() as unknown
             return CurrentlyPlayingSchema.parse(json)
