@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
-import { LandingPage } from '../components/structure/landing-page'
-import { MainPage } from '../components/structure/main-page'
+import { LandingPage } from '../components/ux/landing-page'
+import { MainPage } from '../components/ux/main-page'
 import config from '../config'
 
 
