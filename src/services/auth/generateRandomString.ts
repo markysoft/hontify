@@ -1,5 +1,5 @@
 import { randomBytes } from 'crypto'
 
-export const generateRandomString = (length: number) => {
+export function generateRandomString (length: number) : string {
     return randomBytes(60).toString('hex').slice(0, length)
 }

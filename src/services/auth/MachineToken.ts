@@ -10,7 +10,7 @@ export class MachineToken {
     accessToken = ''
     expires = 0
 
-    expired() {
+    expired() : boolean {
         // subtract 10 seconds to ensure we don't expire during processing
         return Date.now() > this.expires - tenSecondsInMilliseconds
     }

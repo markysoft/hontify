@@ -1,7 +1,7 @@
 import config from '../../config'
 const { spotify } = config
 
-function buildLoginParams(state: string) {
+function buildLoginParams(state: string) : string {
     return new URLSearchParams({
         response_type: 'code',
         client_id: spotify.clientId,
@@ -11,6 +11,6 @@ function buildLoginParams(state: string) {
     }).toString()
 }
 
-export function getSpotifyLoginUrl(state: string) {
+export function getSpotifyLoginUrl(state: string) : string {
     return `https://accounts.spotify.com/authorize?${buildLoginParams(state)}`
 }

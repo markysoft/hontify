@@ -3,6 +3,7 @@ import config from '../../config'
 import { ErrorResponseSchema } from './responses/ErrorResponse'
 import { getCookie, setCookie } from 'hono/cookie'
 import { UserTokenResponseSchema } from './responses/UserTokenResponse'
+import { getTokenExpiry } from './getTokenExpiry'
 const { spotify } = config
 
 const spotifyTokenUrl = 'https://accounts.spotify.com/api/token'
@@ -18,7 +19,7 @@ export class UserToken {
         this.c = c
     }
 
-    public async getToken() {
+    public async getToken() : Promise<string> {
         if (this.accessToken === '') {
             await this.updateToken()
         }
@@ -33,8 +34,10 @@ export class UserToken {
                 const refreshJson = await response.json() as unknown
                 const userToken = UserTokenResponseSchema.parse(refreshJson)
                 this.accessToken = userToken.access_token
-                const expires = new Date(Date.now() + ((userToken.expires_in - 10) * 1000))
-                setCookie(this.c, 'accessToken', this.accessToken, { expires, httpOnly: true })
+                setCookie(this.c, 'accessToken', this.accessToken, {
+                    expires: getTokenExpiry(userToken.expires_in),
+                    httpOnly: true
+                })
             } else {
                 const { error_description } = ErrorResponseSchema.parse(await response.json())
                 console.error('Failed to get token', error_description)

@@ -1,7 +1,7 @@
 import config from '../../config'
 const { spotify } = config
 
-export function buildAuthRequest(code: string) {
+export function buildAuthRequest(code: string)  {
 
     return {
         method: 'POST',
