@@ -1,5 +1,5 @@
-
-import { spotify } from '../config'
+import config from '../config'
+const { spotify } = config
 
 export function buildAuthRequest(code: string) {
 
@@ -8,7 +8,7 @@ export function buildAuthRequest(code: string) {
     body.append('code', code)
     body.append('redirect_uri', spotify.redirectUri)
     body.append('grant_type', 'authorization_code')
-    
+
     return {
         method: 'POST',
         body,

@@ -1,7 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from './structure/layout'
 
-export const MainPage: FC<{ refreshInterval: string; }> = (props: { refreshInterval: string; }) => {
+export const MainPage: FC<{ refreshInterval: number; }> = (props: { refreshInterval: number; }) => {
     const trigger = `load, every ${props.refreshInterval}s`
     return (
         <Layout title="Hontify" loggedIn={true}>

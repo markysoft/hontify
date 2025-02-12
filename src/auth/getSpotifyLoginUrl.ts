@@ -1,4 +1,5 @@
-import { spotify } from '../config'
+import config from '../config'
+const { spotify } = config
 
 function buildLoginParams(state: string) {
     return new URLSearchParams({

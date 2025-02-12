@@ -1,4 +1,5 @@
-import { spotify } from '../config'
+import config from '../config'
+const { spotify } = config
 import { TokenResponseSchema } from './responses/TokenResponse'
 import { SpotifyError } from './responses/ErrorResponse'
 
