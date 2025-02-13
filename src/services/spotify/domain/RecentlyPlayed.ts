@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { RecentlyPlayedResponseMinSchema } from '../responses/RecentlyPlayedResponseMin'
+import { RecentlyPlayedResponseSchema } from '../responses/RecentlyPlayedResponse'
 
 export const RecentlyPlayedItemSchema = z.object({
     name: z.string(),
@@ -23,15 +23,11 @@ export const RecentlyPlayedItemSchema = z.object({
     })
 })
 
-export const RecentlyPlayedSchema = RecentlyPlayedResponseMinSchema.transform((val) => {
+export const RecentlyPlayedSchema = RecentlyPlayedResponseSchema.transform((val) => {
     return {
         next: val.next,
         limit: val.limit,
         href: val.href,
-        before: val.cursors?.before,
-        after: val.cursors?.after,
-        // newer: `https://api.spotify.com/v1/me/player/recently-played?before=${val.cursors.after}`,
-        // older: `https://api.spotify.com/v1/me/player/recently-played?before=${val.cursors.before}`,
         items: val.items.map((item) => {
             return {
                 name: item.track.name,

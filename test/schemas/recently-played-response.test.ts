@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { RecentlyPlayedResponseMinSchema } from '../../src/services/spotify/responses/RecentlyPlayedResponseMin'
+import { RecentlyPlayedResponseSchema } from '../../src/services/spotify/responses/RecentlyPlayedResponse'
 
 
 describe('RecentlyPlayedResponseMinSchema Schema validation', () => {
@@ -9,7 +9,7 @@ describe('RecentlyPlayedResponseMinSchema Schema validation', () => {
 
         const text = readFileSync(__dirname + '/../test-data/two-recent-songs.json', 'utf-8')
         const json = JSON.parse(text)
-        const recentSongs = RecentlyPlayedResponseMinSchema.parse(json)
+        const recentSongs = RecentlyPlayedResponseSchema.parse(json)
         assert.ok(recentSongs)
         assert.equal(recentSongs.items.length, 2)
         assert.equal(recentSongs.limit, 2)

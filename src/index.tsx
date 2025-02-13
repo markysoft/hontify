@@ -20,6 +20,6 @@ app.route('/auth', auth)
 app.route('/spotify', spotify)
 app.route('/healthz', healthz)
 
-console.log(`Server is running on http://localhost:${config.port}`)
+console.log(`Server is running on http://${config.hostname}:${config.port}`)
 
-serve({ fetch: app.fetch, port: config.port })
+serve({ fetch: app.fetch, hostname: config.hostname, port: config.port })

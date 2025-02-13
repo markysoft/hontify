@@ -10,6 +10,7 @@ export const ConfigSchema = z.object({
     }).transform(val => {
         return { ...val, authcode: Buffer.from(`${val.clientId}:${val.clientSecret}`).toString('base64') }
     }),
+    hostname: z.string().default('localhost'),
     port: z.coerce.number().default(3000)
 })
 
@@ -22,6 +23,7 @@ export default ConfigSchema.parse(
             refreshInterval: process.env.REFRESH_INTERVAL,
             scope: 'user-read-private user-read-email user-read-recently-played user-read-currently-playing',
         },
+        hostname: process.env.HONO_HOSTNAME,
         port: process.env.PORT
     }
 )
