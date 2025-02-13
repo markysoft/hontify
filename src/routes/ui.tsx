@@ -4,7 +4,6 @@ import { LandingPage } from '../components/ux/landing-page'
 import { MainPage } from '../components/ux/main-page'
 import config from '../config'
 
-
 const app = new Hono()
 
 app.get('/', (c) => {

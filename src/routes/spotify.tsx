@@ -37,5 +37,4 @@ app.get('/current-song', async (c) => {
     return c.json({ message: 'No access token found, please login again' })
 })
 
-
 export default app

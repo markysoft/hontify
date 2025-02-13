@@ -1,6 +1,5 @@
 import type { FC } from 'hono/jsx'
 
-
 export const NavBar: FC<{ title: string, loggedIn: boolean }> = (props: { title: string, loggedIn: boolean }) => {
     const logInfo = props.loggedIn ?
         { href: '/auth/logout', label: 'Log out' } :

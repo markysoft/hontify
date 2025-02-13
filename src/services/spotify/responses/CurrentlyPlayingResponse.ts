@@ -7,5 +7,4 @@ export const CurrentlyPlayingTrackResponseSchema = z.object({
     item: TrackItemSchema
 })
 
-
 export type CurrentlyPlayingTrackResponse = z.infer<typeof CurrentlyPlayingTrackResponseSchema>
