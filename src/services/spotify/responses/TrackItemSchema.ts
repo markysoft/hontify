@@ -35,3 +35,6 @@ export const TrackItemSchema = z.object({
     name: z.string(),
     track_number: z.number(),
 })
+
+
+export type TrackItem = z.infer<typeof TrackItemSchema>
