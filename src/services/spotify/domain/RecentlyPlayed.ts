@@ -34,4 +34,3 @@ export const RecentlyPlayedSchema = RecentlyPlayedResponseSchema.transform((val)
 })
 
 export type RecentlyPlayed = z.infer<typeof RecentlyPlayedSchema>
-export type RecentlyPlayedItem = z.infer<typeof RecentlyPlayedItemSchema>

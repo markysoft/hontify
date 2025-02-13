@@ -1,10 +1,9 @@
 import { FC } from 'hono/jsx'
-import { RecentlyPlayedItem } from '../../services/spotify/domain/RecentlyPlayed'
 import { CurrentlyPlaying } from '../../services/spotify/domain/CurrentlyPlaying'
 
 
-export const SongCard: FC<{ song: RecentlyPlayedItem | CurrentlyPlaying, size: string }> =
-    (props: { song: RecentlyPlayedItem | CurrentlyPlaying, size: string }) => {
+export const SongCard: FC<{ song: CurrentlyPlaying, size: string }> =
+    (props: { song: CurrentlyPlaying, size: string }) => {
         const imageUrl = props.song.images[props.size as keyof typeof props.song.images]
 
         return (
