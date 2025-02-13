@@ -1,9 +1,9 @@
 
 import { FC } from 'hono/jsx'
-import { CurrentlyPlaying } from '../../services/spotify/domain/CurrentlyPlaying'
+import { Track } from '../../services/spotify/domain/Track'
 import { SongCard } from './song-card'
 
-export const CurrentSong: FC<{ song: CurrentlyPlaying }> = (props: { song: CurrentlyPlaying }) => {
+export const CurrentSong: FC<{ song: Track }> = (props: { song: Track }) => {
     return (
         <>
             <h2 class="title has-text-primary-15">Now Playing</h2>
