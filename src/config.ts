@@ -10,7 +10,7 @@ export const ConfigSchema = z.object({
     }).transform(val => {
         return { ...val, authcode: Buffer.from(`${val.clientId}:${val.clientSecret}`).toString('base64') }
     }),
-    hostname: z.string().default('localhost'),
+    hostname: z.string().optional(),
     port: z.coerce.number().default(3000)
 })
 

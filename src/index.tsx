@@ -20,6 +20,11 @@ app.route('/auth', auth)
 app.route('/spotify', spotify)
 app.route('/healthz', healthz)
 
-console.log(`Server is running on http://${config.hostname}:${config.port}`)
 
-serve({ fetch: app.fetch, hostname: config.hostname, port: config.port })
+if (config.hostname) {
+    console.log(`Server is running on http://${config.hostname}:${config.port}`)
+    serve({ fetch: app.fetch, hostname: config.hostname, port: config.port })
+} else {
+    console.log(`Server is running on default server at port ${config.port}`)
+    serve({ fetch: app.fetch, port: config.port })
+}
