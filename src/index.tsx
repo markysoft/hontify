@@ -20,11 +20,9 @@ app.route('/auth', auth)
 app.route('/spotify', spotify)
 app.route('/healthz', healthz)
 
+const hostMessage = config.hostname ?
+    `http://${config.hostname}:${config.port}` :
+    ` default server at port ${config.port}`
 
-if (config.hostname) {
-    console.log(`Server is running on http://${config.hostname}:${config.port}`)
-    serve({ fetch: app.fetch, hostname: config.hostname, port: config.port })
-} else {
-    console.log(`Server is running on default server at port ${config.port}`)
-    serve({ fetch: app.fetch, port: config.port })
-}
+console.log(`Server is running on ${hostMessage}`)
+serve({ fetch: app.fetch, hostname: config.hostname, port: config.port })
